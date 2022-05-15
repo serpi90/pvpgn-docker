@@ -1,0 +1,22 @@
+name: Docker build & push multiarch
+
+on:
+  workflow_dispatch:
+  push:
+    branches: 
+     - '**'
+    tags:
+      - 'v*.*.*'
+  pull_request:
+
+jobs:
+  build_and_publish:
+    uses: honigpferd/docker-buildx-workflow/.github/workflows/docker-buildx.yml@v1
+    permissions:
+      contents: read
+      packages: write
+    with:
+      platforms: 'linux/amd64,linux/arm64'    #  (default)
+      registry: 'ghcr.io'                     #  (default)
+      image_name: ${{ github.repository }}    #  (default)
+
